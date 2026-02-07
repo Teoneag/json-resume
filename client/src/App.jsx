@@ -57,6 +57,16 @@ function App() {
     } catch { alert('Error saving'); setSaving(false); }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        handleSave();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [jsonContent]);
 
   const handleCardClick = (themeName) => {
     setCurrentTheme(themeName);
