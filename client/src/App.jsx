@@ -48,11 +48,18 @@ function App() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      const parsed = JSON.parse(jsonContent);
+      if (!parsed.meta) parsed.meta = {};
+      parsed.meta.lastModified = new Date().toISOString();
+
       await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: jsonContent
+        body: JSON.stringify(parsed)
       });
+
+      setJsonContent(JSON.stringify(parsed, null, 2));
+
       setTimeout(() => setSaving(false), 800);
     } catch { alert('Error saving'); setSaving(false); }
   };
@@ -72,7 +79,6 @@ function App() {
     setCurrentTheme(themeName);
     setGridColumns(1);
 
-    // Scroll to card after grid adjusts
     setTimeout(() => {
       cardRefs.current[themeName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
