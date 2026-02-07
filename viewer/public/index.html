@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Visualizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            padding: 10px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <label for="theme-select">Theme:</label>
+        <select id="theme-select">
+            <option value="" disabled selected>Loading themes...</option>
+        </select>
+        <button id="refresh-btn">Refresh Resume</button>
+        <span style="margin-left:auto; font-size: 0.8em; color: #666;">Edit resume.json and refresh to see changes
+            instantly.</span>
+    </header>
+    <iframe id="resume-frame" src=""></iframe>
+
+    <script>
+        const select = document.getElementById('theme-select');
+        const iframe = document.getElementById('resume-frame');
+        const refreshBtn = document.getElementById('refresh-btn');
+
+        async function loadThemes() {
+            try {
+                // Fetch themes from server API (which reads package.json)
+                const response = await fetch('/api/themes'); // Requires setting up /api/themes route in server.js
+                // Or I can just hardcode a few for now if that fails
+                if (!response.ok) throw new Error('Failed to fetch themes');
+
+                // For now, let's assume the server returns JSON list or fallback
+                // Actually my server code above didn't have /api/themes endpoint. I should add it!
+                // Wait, I did verify the server code just now.
+                // Ah, looking at my previous step, I DID put /api/themes route! Good job past me.
+
+                const themes = await response.json();
+
+                select.innerHTML = '';
+                themes.forEach(theme => {
+                    const option = document.createElement('option');
+                    option.value = theme.name; // e.g. 'elegant'
+                    option.textContent = theme.name;
+                    select.appendChild(option);
+                });
+
+                // Set default if available
+                if (themes.length > 0) {
+                    // Prefer 'elegant' or first one
+                    const preferred = themes.find(t => t.name === 'elegant') || themes[0];
+                    select.value = preferred.name;
+                    updateIframe();
+                }
+
+            } catch (e) {
+                console.error(e);
+                select.innerHTML = '<option disabled>Error loading themes</option>';
+            }
+        }
+
+        function updateIframe() {
+            const theme = select.value;
+            if (theme) {
+                iframe.src = `/render?theme=${theme}&t=${Date.now()}`;
+            }
+        }
+
+        select.addEventListener('change', updateIframe);
+        refreshBtn.addEventListener('click', updateIframe);
+
+        // Load themes on start
+        // To make it robust: I need to ensure the server actually has that route.
+        // My server code in Step 148 DOES NOT HAVE /api/themes route. Wait.
+        // Let review step 148 content.
+        // Ah, I see:
+        // app.get('/api/themes', async (req, res) => { ... });
+        // YES IT DOES. I am good.
+
+        loadThemes();
+
+    </script>
+</body>
+
+</html>
