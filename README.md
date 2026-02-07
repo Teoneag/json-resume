@@ -1,36 +1,30 @@
 
-# JSON Resume Viewer
+# JSON Resume Editor
 
-This project allows you to edit and preview your resume using various JSON Resume themes instantly.
+Local visualization tool for [JSON Resume](https://jsonresume.org/).
 
-## 🚀 Quick Start
+## Getting Started
 
-1.  **Install Dependencies**
-    ```bash
-    npm install
-    ```
+1.  Install & Run
 
-2.  **Start the Viewer**
-    ```bash
-    npm start
-    ```
-
-3.  **View & Edit**
-    -   Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-    -   Edit `resume.json` in your code editor.
-    -   Refresh the browser or switch themes to see your changes instantly.
-
-## 🎨 Themes
-
-To add more themes, install them via npm:
 ```bash
-npm install jsonresume-theme-<theme-name>
+npm install && npm start
 ```
-They will automatically appear in the dropdown menu after a page refresh.
+Opens editor at `http://localhost:5173`.
 
-## 📤 Export (Optional)
+2.  Add Themes:
 
-To export your resume to PDF using a specific theme:
 ```bash
-npx resumed export resume.pdf --theme jsonresume-theme-<name>
+npm install jsonresume-theme-<name>
 ```
+(Restart server to load new themes).
+
+## Usage
+*   **Edit:** Modify `resume.json` on the left.
+*   **Preview:** See changes live on the right.
+*   **Export:** Use browser's **Print -> Save as PDF**.
+
+## Structure
+*   `resume.json`: Your data.
+*   `server/`: Backend API & Renderer.
+*   `client/`: React Frontend (Port 5173).

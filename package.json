@@ -3,9 +3,13 @@
   "type": "module",
   "scripts": {
     "init": "resumed init",
-    "start": "node viewer/server.js"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm run dev",
+    "postinstall": "cd client && npm install"
   },
   "dependencies": {
+    "concurrently": "^9.2.1",
     "express": "^5.2.1",
     "jsonresume-theme-actual": "^0.2.2",
     "jsonresume-theme-cora": "^0.1.1",
