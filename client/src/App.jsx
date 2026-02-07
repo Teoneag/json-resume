@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import { Button, Group, Select, Loader, Box, Text } from '@mantine/core';
+import { Button, Group, Loader, Box, Text, ActionIcon, Grid, Card } from '@mantine/core';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 
 function App() {
@@ -11,7 +11,9 @@ function App() {
   const [renderedHtml, setRenderedHtml] = useState('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [gridColumns, setGridColumns] = useState(2);
   const timeoutRef = useRef(null);
+  const cardRefs = useRef({});
 
   useEffect(() => {
     Promise.all([
@@ -28,7 +30,6 @@ function App() {
     if (!currentTheme || !jsonContent) return;
 
     setLoading(true);
-
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(async () => {
       try {
@@ -54,6 +55,17 @@ function App() {
       });
       setTimeout(() => setSaving(false), 800);
     } catch { alert('Error saving'); setSaving(false); }
+  };
+
+
+  const handleCardClick = (themeName) => {
+    setCurrentTheme(themeName);
+    setGridColumns(1);
+
+    // Scroll to card after grid adjusts
+    setTimeout(() => {
+      cardRefs.current[themeName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   if (!jsonContent) return <Loader size="xl" m="auto" />;
@@ -83,19 +95,109 @@ function App() {
         <PanelResizeHandle style={{ width: 4, background: '#e9ecef', cursor: 'col-resize' }} />
 
         <Panel defaultSize={50} minSize={20} style={{ display: 'flex', flexDirection: 'column', background: '#f8f9fa' }}>
-          <Group h={50} px="md" justify="space-between" bg="white" style={{ borderBottom: '1px solid #e9ecef' }}>
-            <Group gap="xs">
-              <Text size="sm" fw={700}>Preview</Text>
-              {loading && <Loader size="xs" />}
+          <Box bg="white" style={{ borderBottom: '1px solid #e9ecef' }}>
+            <Group h={50} px="md" justify="space-between">
+              <Group gap="xs">
+                <Text size="sm" fw={700}>Preview</Text>
+                {loading && <Loader size="xs" />}
+              </Group>
+
+              <Group gap={5}>
+                <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.max(1, gridColumns - 1))} disabled={gridColumns === 1}>−</ActionIcon>
+                <Text size="xs" w={20} ta="center">{gridColumns}</Text>
+                <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.min(4, gridColumns + 1))} disabled={gridColumns === 4}>+</ActionIcon>
+              </Group>
             </Group>
-            <Select size="xs" w={150} data={themes.map(t => t.name)} value={currentTheme} onChange={setCurrentTheme} />
-          </Group>
-          <div style={{ flex: 1, position: 'relative', width: '100%' }}>
-            {loading && <div style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.5)', zIndex: 10 }} />}
-            <iframe srcDoc={renderedHtml} style={{ width: '100%', height: '100%', border: 'none', display: 'block' }} title="Preview" />
+          </Box>
+
+          <div style={{ flex: 1, position: 'relative', width: '100%', overflow: 'auto', padding: 20 }}>
+            <Grid>
+              {themes.map(theme => (
+                <Grid.Col span={12 / gridColumns} key={theme.name}>
+                  <Card
+                    ref={el => cardRefs.current[theme.name] = el}
+                    padding="xs"
+                    radius="md"
+                    withBorder
+                    style={{
+                      cursor: 'pointer',
+                      border: currentTheme === theme.name && gridColumns === 1 ? '2px solid #228be6' : undefined
+                    }}
+                    onClick={() => handleCardClick(theme.name)}
+                  >
+                    <Text size="xs" fw={700} mb={5} ta="center">{theme.name}</Text>
+                    <div style={{ width: '100%', aspectRatio: '1024 / 1448', background: 'white', overflow: 'hidden', position: 'relative' }}>
+                      <ThemeThumbnail theme={theme.name} json={jsonContent} />
+                    </div>
+                  </Card>
+                </Grid.Col>
+              ))}
+            </Grid>
           </div>
         </Panel>
       </PanelGroup>
+    </div>
+  );
+}
+
+function ThemeThumbnail({ theme, json }) {
+  const [html, setHtml] = useState('');
+  const containerRef = useRef(null);
+  const [scale, setScale] = useState(0.25);
+
+  useEffect(() => {
+    const fetchRender = async () => {
+      try {
+        const parsed = JSON.parse(json);
+        const res = await fetch(`/render?theme=${theme}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed)
+        });
+        let content = await res.text();
+        content += `<style>body { margin: 0; }</style>`;
+        setHtml(content);
+      } catch { }
+    };
+    fetchRender();
+  }, [theme, json]);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(entries => {
+      const entry = entries[0];
+      if (entry) {
+        const width = entry.contentRect.width;
+        const height = entry.contentRect.height;
+        const scaleX = width / 1024;
+        const scaleY = height / 1448;
+        if (width > 0 && height > 0) setScale(Math.min(scaleX, scaleY));
+      }
+    });
+
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
+      {!html ? (
+        <Loader size="xs" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+      ) : (
+        <iframe
+          srcDoc={html}
+          style={{
+            width: '1024px',
+            height: '1448px',
+            border: 'none',
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: 0, left: 0
+          }}
+          title={theme}
+        />
+      )}
     </div>
   );
 }

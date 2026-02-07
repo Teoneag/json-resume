@@ -34,9 +34,33 @@ app.post('/render', async (req, res) => {
     const pkgName = `jsonresume-theme-${req.query.theme}`;
     try {
         const theme = await import(pkgName);
-        try { res.send(await render(req.body, theme)); }
-        catch { res.send((theme.render || theme.default?.render)(req.body)); }
-    } catch (e) { res.status(500).send(e.message); }
+
+        // Try multiple render strategies
+        try {
+            // Strategy 1: Use resumed's render
+            res.send(await render(req.body, theme));
+        } catch (e1) {
+            try {
+                // Strategy 2: Direct theme.render
+                if (theme.render) {
+                    res.send(await theme.render(req.body));
+                } else if (theme.default?.render) {
+                    res.send(await theme.default.render(req.body));
+                } else if (typeof theme.default === 'function') {
+                    // Strategy 3: Default export is the render function
+                    res.send(await theme.default(req.body));
+                } else {
+                    throw new Error('No render method found');
+                }
+            } catch (e2) {
+                console.error(`Render failed for ${pkgName}:`, e2.message);
+                res.status(500).send(`<h1>Theme Error</h1><p>${e2.message}</p>`);
+            }
+        }
+    } catch (e) {
+        console.error(`Import failed for ${pkgName}:`, e.message);
+        res.status(500).send(`<h1>Theme Not Found</h1><p>${e.message}</p>`);
+    }
 });
 
 app.listen(PORT, () => console.log(`API at http://localhost:${PORT}`));
