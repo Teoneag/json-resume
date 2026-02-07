@@ -35,6 +35,9 @@ function App() {
         setCurrentTheme(themeToUse);
         if (savedTheme && themesData.find(t => t.name === savedTheme)) {
           setGridColumns(1);
+          setTimeout(() => {
+            cardRefs.current[savedTheme]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 200);
         }
       }
     });
