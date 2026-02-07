@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
-import Editor from '@monaco-editor/react';
+import Editor, { DiffEditor } from '@monaco-editor/react';
 import { Button, Group, Loader, Box, Text, ActionIcon, Grid, Card } from '@mantine/core';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
 
@@ -8,10 +8,12 @@ function App() {
   const [themes, setThemes] = useState([]);
   const [currentTheme, setCurrentTheme] = useState('');
   const [jsonContent, setJsonContent] = useState(null);
+  const [savedContent, setSavedContent] = useState(null);
   const [renderedHtml, setRenderedHtml] = useState('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [gridColumns, setGridColumns] = useState(2);
+  const [showDiff, setShowDiff] = useState(false);
   const timeoutRef = useRef(null);
   const cardRefs = useRef({});
 
@@ -21,8 +23,20 @@ function App() {
       fetch('/api/resume').then(r => r.json())
     ]).then(([themesData, resumeData]) => {
       setThemes(themesData);
-      if (themesData.length) setCurrentTheme(themesData.find(t => t.name === 'flat')?.name || themesData[0].name);
-      setJsonContent(JSON.stringify(resumeData, null, 2));
+      const initialContent = JSON.stringify(resumeData, null, 2);
+      setJsonContent(initialContent);
+      setSavedContent(initialContent);
+
+      const savedTheme = resumeData.meta?.theme?.replace('jsonresume-theme-', '');
+      const themeToUse = themesData.find(t => t.name === savedTheme)?.name
+        || themesData.find(t => t.name === 'flat')?.name
+        || themesData[0]?.name;
+      if (themeToUse) {
+        setCurrentTheme(themeToUse);
+        if (savedTheme && themesData.find(t => t.name === savedTheme)) {
+          setGridColumns(1);
+        }
+      }
     });
   }, []);
 
@@ -58,7 +72,9 @@ function App() {
         body: JSON.stringify(parsed)
       });
 
-      setJsonContent(JSON.stringify(parsed, null, 2));
+      const updatedContent = JSON.stringify(parsed, null, 2);
+      setJsonContent(updatedContent);
+      setSavedContent(updatedContent);
 
       setTimeout(() => setSaving(false), 800);
     } catch { alert('Error saving'); setSaving(false); }
@@ -79,9 +95,16 @@ function App() {
     setCurrentTheme(themeName);
     setGridColumns(1);
 
+    try {
+      const parsed = JSON.parse(jsonContent);
+      if (!parsed.meta) parsed.meta = {};
+      parsed.meta.theme = `jsonresume-theme-${themeName}`;
+      setJsonContent(JSON.stringify(parsed, null, 2));
+    } catch { }
+
     setTimeout(() => {
       cardRefs.current[themeName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    }, 100); // TODO find better way
   };
 
   if (!jsonContent) return <Loader size="xl" m="auto" />;
@@ -92,20 +115,51 @@ function App() {
         <Panel defaultSize={50} minSize={20} style={{ display: 'flex', flexDirection: 'column' }}>
           <Group h={50} px="md" justify="space-between" style={{ borderBottom: '1px solid #e9ecef' }}>
             <Text size="sm" fw={700}>resume.json</Text>
-            <Button size="xs" color={saving ? "green" : "dark"} onClick={handleSave}>{saving ? 'Saved' : 'Save'}</Button>
+            <Group gap={5}>
+              <Button size="xs" color={saving ? "green" : "dark"} onClick={handleSave}>
+                {saving ? 'Saved' : (jsonContent !== savedContent ? 'Save *' : 'Save')}
+              </Button>
+              {jsonContent !== savedContent && (
+                <Button size="xs" variant="default" onClick={() => setShowDiff(!showDiff)}>
+                  {showDiff ? 'Edit' : 'Diff'}
+                </Button>
+              )}
+            </Group>
           </Group>
-          <Editor
-            height="100%"
-            defaultLanguage="json"
-            value={jsonContent}
-            onChange={setJsonContent}
-            options={{
-              minimap: { enabled: false },
-              wordWrap: 'on',
-              fontSize: 13,
-              scrollbar: { vertical: 'hidden', horizontal: 'hidden' }
-            }}
-          />
+          {showDiff ? (
+            <DiffEditor
+              height="100%"
+              language="json"
+              original={savedContent}
+              modified={jsonContent}
+              options={{
+                minimap: { enabled: false },
+                wordWrap: 'on',
+                fontSize: 13,
+                readOnly: false,
+                renderSideBySide: true
+              }}
+              onMount={(editor) => {
+                const modifiedEditor = editor.getModifiedEditor();
+                modifiedEditor.onDidChangeModelContent(() => {
+                  setJsonContent(modifiedEditor.getValue());
+                });
+              }}
+            />
+          ) : (
+            <Editor
+              height="100%"
+              defaultLanguage="json"
+              value={jsonContent}
+              onChange={setJsonContent}
+              options={{
+                minimap: { enabled: false },
+                wordWrap: 'on',
+                fontSize: 13,
+                scrollbar: { vertical: 'hidden', horizontal: 'hidden' }
+              }}
+            />
+          )}
         </Panel>
 
         <PanelResizeHandle style={{ width: 4, background: '#e9ecef', cursor: 'col-resize' }} />
