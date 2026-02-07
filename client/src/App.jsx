@@ -1,21 +1,144 @@
-
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import Editor, { DiffEditor } from '@monaco-editor/react';
-import { Button, Group, Loader, Box, Text, ActionIcon, Grid, Card } from '@mantine/core';
+import { Button, Group, Loader, Box, Text, ActionIcon, Grid, Card, Flex } from '@mantine/core';
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels';
+
+const RESUME_WIDTH = 1024;
+const RESUME_HEIGHT = 1448;
+const MIN_GRID_COLUMNS = 1;
+const MAX_GRID_COLUMNS = 4;
+const BORDER_COLOR = '#e9ecef';
+const SELECTED_BORDER = '2px solid #228be6';
+
+const SHARED_MONACO_OPTIONS = {
+  wordWrap: 'on',
+};
+
+const stripThemePrefix = (theme) => theme?.replace('jsonresume-theme-', '') || '';
+const addThemePrefix = (theme) => `jsonresume-theme-${theme}`;
+
+const parseJSON = (content) => {
+  try {
+    return JSON.parse(content);
+  } catch (error) {
+    console.error('JSON parse error:', error);
+    return null;
+  }
+};
+
+const findDefaultTheme = (themesData, savedTheme) => {
+  const savedThemeExists = themesData.find(t => t.name === savedTheme);
+  return savedThemeExists?.name
+    || themesData.find(t => t.name === 'flat')?.name
+    || themesData[0]?.name;
+};
+
+const PanelHeader = ({ title, children }) => (
+  <Group h={50} px="md" justify="space-between" wrap="nowrap" style={{ borderBottom: `1px solid ${BORDER_COLOR}` }} bg="white">
+    <Text size="sm" fw={700} truncate>{title}</Text>
+    <Group gap={5} wrap="nowrap">{children}</Group>
+  </Group>
+);
+
+const EditorPanel = ({
+  justSaved, saving, hasChanges, showDiff, setShowDiff,
+  savedContent, jsonContent, setJsonContent, handleSave
+}) => (
+  <Panel defaultSize={50} minSize={25}>
+    <Flex direction="column" h="100%">
+      <PanelHeader title="resume.json">
+        <Button size="xs" color={justSaved ? "green" : "dark"} onClick={handleSave} loading={saving}>
+          {justSaved ? 'Saved' : (hasChanges ? 'Save *' : 'Save')}
+        </Button>
+        {hasChanges && (
+          <Button size="xs" variant="default" onClick={() => setShowDiff(!showDiff)}>
+            {showDiff ? 'Edit' : 'Diff'}
+          </Button>
+        )}
+      </PanelHeader>
+
+      <Box flex={1} minHeight={0}>
+        {showDiff ? (
+          <DiffEditor
+            height="100%"
+            language="json"
+            original={savedContent}
+            modified={jsonContent}
+            options={{ ...SHARED_MONACO_OPTIONS, readOnly: false, renderSideBySide: true }}
+            onMount={(editor) => {
+              const modified = editor.getModifiedEditor();
+              modified.onDidChangeModelContent(() => setJsonContent(modified.getValue()));
+            }}
+          />
+        ) : (
+          <Editor
+            height="100%"
+            defaultLanguage="json"
+            value={jsonContent}
+            onChange={setJsonContent}
+            options={{ ...SHARED_MONACO_OPTIONS, scrollbar: { vertical: 'auto', horizontal: 'hidden' } }}
+          />
+        )}
+      </Box>
+    </Flex>
+  </Panel>
+);
+
+const PreviewPanel = ({
+  themes, gridColumns, setGridColumns, currentTheme,
+  jsonContent, cardRefs, handleCardClick
+}) => (
+  <Panel defaultSize={50} minSize={25}>
+    <Flex direction="column" h="100%" bg="white">
+      <PanelHeader title="Preview">
+        <Group gap={5} wrap="nowrap">
+          <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.max(MIN_GRID_COLUMNS, gridColumns - 1))} disabled={gridColumns === MIN_GRID_COLUMNS}>−</ActionIcon>
+          <Text size="xs" w={20} ta="center">{gridColumns}</Text>
+          <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.min(MAX_GRID_COLUMNS, gridColumns + 1))} disabled={gridColumns === MAX_GRID_COLUMNS}>+</ActionIcon>
+        </Group>
+      </PanelHeader>
+
+      <Box flex={1} p={20} style={{ overflowY: 'auto' }}>
+        <Grid>
+          {themes.map(theme => (
+            <Grid.Col span={12 / gridColumns} key={theme.name}>
+              <Card
+                ref={el => cardRefs.current[theme.name] = el}
+                p="xs" radius="md" withBorder
+                style={{ cursor: 'pointer', border: currentTheme === theme.name && gridColumns === 1 ? SELECTED_BORDER : undefined }}
+                onClick={() => handleCardClick(theme.name)}
+              >
+                <Text size="xs" fw={700} mb={5} ta="center">{theme.name}</Text>
+                <Box pos="relative" w="100%" style={{ aspectRatio: `${RESUME_WIDTH} / ${RESUME_HEIGHT}`, overflow: 'hidden' }} bg="white">
+                  <ThemeThumbnail theme={theme.name} json={jsonContent} />
+                </Box>
+              </Card>
+            </Grid.Col>
+          ))}
+        </Grid>
+      </Box>
+    </Flex>
+  </Panel>
+);
 
 function App() {
   const [themes, setThemes] = useState([]);
   const [currentTheme, setCurrentTheme] = useState('');
   const [jsonContent, setJsonContent] = useState(null);
   const [savedContent, setSavedContent] = useState(null);
-  const [renderedHtml, setRenderedHtml] = useState('');
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
   const [gridColumns, setGridColumns] = useState(2);
   const [showDiff, setShowDiff] = useState(false);
-  const timeoutRef = useRef(null);
   const cardRefs = useRef({});
+
+  const hasChanges = useMemo(() => jsonContent !== savedContent, [jsonContent, savedContent]);
+
+  const scrollToTheme = (themeName) => {
+    requestAnimationFrame(() => {
+      cardRefs.current[themeName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
 
   useEffect(() => {
     Promise.all([
@@ -27,47 +150,26 @@ function App() {
       setJsonContent(initialContent);
       setSavedContent(initialContent);
 
-      const savedTheme = resumeData.meta?.theme?.replace('jsonresume-theme-', '');
-      const themeToUse = themesData.find(t => t.name === savedTheme)?.name
-        || themesData.find(t => t.name === 'flat')?.name
-        || themesData[0]?.name;
+      const savedTheme = stripThemePrefix(resumeData.meta?.theme);
+      const themeToUse = findDefaultTheme(themesData, savedTheme);
+
       if (themeToUse) {
         setCurrentTheme(themeToUse);
-        if (savedTheme && themesData.find(t => t.name === savedTheme)) {
+        if (themesData.find(t => t.name === savedTheme)) {
           setGridColumns(1);
-          setTimeout(() => {
-            cardRefs.current[savedTheme]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 200);
+          scrollToTheme(savedTheme);
         }
       }
-    });
+    }).catch(error => console.error('Data load error:', error));
   }, []);
 
-  useEffect(() => {
-    if (!currentTheme || !jsonContent) return;
+  const handleSave = useCallback(async () => {
+    const parsed = parseJSON(jsonContent);
+    if (!parsed) return alert('Invalid JSON');
 
-    setLoading(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(async () => {
-      try {
-        const parsed = JSON.parse(jsonContent);
-        const res = await fetch(`/render?theme=${currentTheme}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsed)
-        });
-        setRenderedHtml(await res.text());
-      } catch { }
-      setLoading(false);
-    }, 800);
-  }, [jsonContent, currentTheme]);
-
-  const handleSave = async () => {
     setSaving(true);
     try {
-      const parsed = JSON.parse(jsonContent);
-      if (!parsed.meta) parsed.meta = {};
-      parsed.meta.lastModified = new Date().toISOString();
+      parsed.meta = { ...parsed.meta, lastModified: new Date().toISOString() };
 
       await fetch('/api/save', {
         method: 'POST',
@@ -75,13 +177,19 @@ function App() {
         body: JSON.stringify(parsed)
       });
 
-      const updatedContent = JSON.stringify(parsed, null, 2);
-      setJsonContent(updatedContent);
-      setSavedContent(updatedContent);
+      const updated = JSON.stringify(parsed, null, 2);
+      setJsonContent(updated);
+      setSavedContent(updated);
+      setJustSaved(true);
+    } catch (error) {
+      console.error('Save error:', error);
+      alert('Error saving');
+    } finally {
+      setSaving(false);
+    }
+  }, [jsonContent]);
 
-      setTimeout(() => setSaving(false), 800);
-    } catch { alert('Error saving'); setSaving(false); }
-  };
+  useEffect(() => { if (hasChanges) setJustSaved(false); }, [hasChanges]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -92,187 +200,107 @@ function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [jsonContent]);
+  }, [handleSave]);
 
   const handleCardClick = (themeName) => {
     setCurrentTheme(themeName);
     setGridColumns(1);
 
-    try {
-      const parsed = JSON.parse(jsonContent);
-      if (!parsed.meta) parsed.meta = {};
-      parsed.meta.theme = `jsonresume-theme-${themeName}`;
+    const parsed = parseJSON(jsonContent);
+    if (parsed) {
+      parsed.meta = { ...parsed.meta, theme: addThemePrefix(themeName) };
       setJsonContent(JSON.stringify(parsed, null, 2));
-    } catch { }
-
-    setTimeout(() => {
-      cardRefs.current[themeName]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100); // TODO find better way
+    }
+    scrollToTheme(themeName);
   };
 
-  if (!jsonContent) return <Loader size="xl" m="auto" />;
+  if (!jsonContent) return <Loader size="xl" pos="absolute" inset={0} m="auto" />;
 
   return (
-    <div style={{ height: '100vh', display: 'flex' }}>
+    <Box h="100vh" w="100vw" display="flex" style={{ overflow: 'hidden' }}>
       <PanelGroup direction="horizontal">
-        <Panel defaultSize={50} minSize={20} style={{ display: 'flex', flexDirection: 'column' }}>
-          <Group h={50} px="md" justify="space-between" style={{ borderBottom: '1px solid #e9ecef' }}>
-            <Text size="sm" fw={700}>resume.json</Text>
-            <Group gap={5}>
-              <Button size="xs" color={saving ? "green" : "dark"} onClick={handleSave}>
-                {saving ? 'Saved' : (jsonContent !== savedContent ? 'Save *' : 'Save')}
-              </Button>
-              {jsonContent !== savedContent && (
-                <Button size="xs" variant="default" onClick={() => setShowDiff(!showDiff)}>
-                  {showDiff ? 'Edit' : 'Diff'}
-                </Button>
-              )}
-            </Group>
-          </Group>
-          {showDiff ? (
-            <DiffEditor
-              height="100%"
-              language="json"
-              original={savedContent}
-              modified={jsonContent}
-              options={{
-                minimap: { enabled: false },
-                wordWrap: 'on',
-                fontSize: 13,
-                readOnly: false,
-                renderSideBySide: true
-              }}
-              onMount={(editor) => {
-                const modifiedEditor = editor.getModifiedEditor();
-                modifiedEditor.onDidChangeModelContent(() => {
-                  setJsonContent(modifiedEditor.getValue());
-                });
-              }}
-            />
-          ) : (
-            <Editor
-              height="100%"
-              defaultLanguage="json"
-              value={jsonContent}
-              onChange={setJsonContent}
-              options={{
-                minimap: { enabled: false },
-                wordWrap: 'on',
-                fontSize: 13,
-                scrollbar: { vertical: 'hidden', horizontal: 'hidden' }
-              }}
-            />
-          )}
-        </Panel>
-
-        <PanelResizeHandle style={{ width: 4, background: '#e9ecef', cursor: 'col-resize' }} />
-
-        <Panel defaultSize={50} minSize={20} style={{ display: 'flex', flexDirection: 'column', background: '#f8f9fa' }}>
-          <Box bg="white" style={{ borderBottom: '1px solid #e9ecef' }}>
-            <Group h={50} px="md" justify="space-between">
-              <Group gap="xs">
-                <Text size="sm" fw={700}>Preview</Text>
-                {loading && <Loader size="xs" />}
-              </Group>
-
-              <Group gap={5}>
-                <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.max(1, gridColumns - 1))} disabled={gridColumns === 1}>−</ActionIcon>
-                <Text size="xs" w={20} ta="center">{gridColumns}</Text>
-                <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.min(4, gridColumns + 1))} disabled={gridColumns === 4}>+</ActionIcon>
-              </Group>
-            </Group>
-          </Box>
-
-          <div style={{ flex: 1, position: 'relative', width: '100%', overflow: 'auto', padding: 20 }}>
-            <Grid>
-              {themes.map(theme => (
-                <Grid.Col span={12 / gridColumns} key={theme.name}>
-                  <Card
-                    ref={el => cardRefs.current[theme.name] = el}
-                    padding="xs"
-                    radius="md"
-                    withBorder
-                    style={{
-                      cursor: 'pointer',
-                      border: currentTheme === theme.name && gridColumns === 1 ? '2px solid #228be6' : undefined
-                    }}
-                    onClick={() => handleCardClick(theme.name)}
-                  >
-                    <Text size="xs" fw={700} mb={5} ta="center">{theme.name}</Text>
-                    <div style={{ width: '100%', aspectRatio: '1024 / 1448', background: 'white', overflow: 'hidden', position: 'relative' }}>
-                      <ThemeThumbnail theme={theme.name} json={jsonContent} />
-                    </div>
-                  </Card>
-                </Grid.Col>
-              ))}
-            </Grid>
-          </div>
-        </Panel>
+        <EditorPanel
+          justSaved={justSaved}
+          saving={saving}
+          hasChanges={hasChanges}
+          showDiff={showDiff}
+          setShowDiff={setShowDiff}
+          savedContent={savedContent}
+          jsonContent={jsonContent}
+          setJsonContent={setJsonContent}
+          handleSave={handleSave}
+        />
+        <PanelResizeHandle style={{ width: 6, background: BORDER_COLOR, position: 'relative', cursor: 'col-resize' }}>
+          <Box pos="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)' }} w={2} h={30} bg="#adb5bd" bdl={1} />
+        </PanelResizeHandle>
+        <PreviewPanel
+          themes={themes}
+          gridColumns={gridColumns}
+          setGridColumns={setGridColumns}
+          currentTheme={currentTheme}
+          jsonContent={jsonContent}
+          cardRefs={cardRefs}
+          handleCardClick={handleCardClick}
+        />
       </PanelGroup>
-    </div>
+    </Box>
   );
 }
 
-function ThemeThumbnail({ theme, json }) {
+const ThemeThumbnail = memo(function ThemeThumbnail({ theme, json }) {
   const [html, setHtml] = useState('');
   const containerRef = useRef(null);
-  const [scale, setScale] = useState(0.25);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
-    const fetchRender = async () => {
+    (async () => {
       try {
-        const parsed = JSON.parse(json);
         const res = await fetch(`/render?theme=${theme}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsed)
+          body: json
         });
-        let content = await res.text();
-        content += `<style>body { margin: 0; }</style>`;
-        setHtml(content);
-      } catch { }
-    };
-    fetchRender();
+        const content = await res.text();
+        setHtml(`${content}<style>body { margin: 0; }</style>`);
+      } catch (error) {
+        console.error(`Render error (${theme}):`, error);
+      }
+    })();
   }, [theme, json]);
 
   useEffect(() => {
-    const observer = new ResizeObserver(entries => {
-      const entry = entries[0];
+    const observer = new ResizeObserver(([entry]) => {
       if (entry) {
-        const width = entry.contentRect.width;
-        const height = entry.contentRect.height;
-        const scaleX = width / 1024;
-        const scaleY = height / 1448;
-        if (width > 0 && height > 0) setScale(Math.min(scaleX, scaleY));
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          setScale(Math.min(width / RESUME_WIDTH, height / RESUME_HEIGHT));
+        }
       }
     });
-
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
+    <Box ref={containerRef} h="100%" w="100%" pos="relative" style={{ overflow: 'hidden' }}>
       {!html ? (
-        <Loader size="xs" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+        <Loader size="xs" pos="absolute" top="50%" left="50%" style={{ transform: 'translate(-50%, -50%)' }} />
       ) : (
         <iframe
           srcDoc={html}
+          title={theme}
           style={{
-            width: '1024px',
-            height: '1448px',
+            width: `${RESUME_WIDTH}px`,
+            height: `${RESUME_HEIGHT}px`,
             border: 'none',
             transform: `scale(${scale})`,
             transformOrigin: 'top left',
-            pointerEvents: 'none',
-            position: 'absolute',
-            top: 0, left: 0
+            pointerEvents: 'none', // so we can click on the card
           }}
-          title={theme}
         />
       )}
-    </div>
+    </Box>
   );
-}
+});
 
 export default App;
