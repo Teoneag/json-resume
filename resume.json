@@ -3,7 +3,7 @@
   "basics": {
     "name": "Teodor Neagoe",
     "label": "Software Engineer | Student | Founder",
-    "image": "https://drive.google.com/file/d/1JBmeMM30tNUcizyB0CAsQzgDH0HbnWEY/view?usp=sharing",
+    "image": "",
     "email": "teodor.neagoe.climber@gmail.com",
     "phone": "+40 773 837 073",
     "url": "https://github.com/Teoneag",
@@ -31,8 +31,7 @@
       "institution": "Delft University of Technology",
       "area": "Computer Science & Engineering",
       "studyType": "Honours BSc",
-      "startDate": "Sep 2023",
-      "endDate": "",
+      "startDate": "2023-09-01",
       "courses": [
         "Quantum Science and Quantum Information Minor",
         "Honours research: Value Alignment in LLM Responses",
@@ -46,8 +45,8 @@
       "institution": "\"Andrei Șaguna\" National College",
       "area": "Mathematics & Computer Science",
       "studyType": "High School",
-      "startDate": "2019",
-      "endDate": "2023"
+      "startDate": "2019-09-01",
+      "endDate": "2023-06-30"
     }
   ],
   "work": [
@@ -55,7 +54,7 @@
       "name": "Ekkie.ai",
       "location": "Rozendaal, Netherlands",
       "position": "Founding Engineer (Part-time)",
-      "startDate": "Jan 2026",
+      "startDate": "2026-01-01",
       "summary": "",
       "url": "https://www.ekkie.ai",
       "highlights": [
@@ -69,7 +68,7 @@
       "name": "YellowDocs.com",
       "location": "Delft, Netherlands",
       "position": "Technical Co-founder",
-      "startDate": "Dec 2025",
+      "startDate": "2025-12-01",
       "url": "https://yellowdocs.com/",
       "highlights": [
         "B2B SaaS startup for Health & Safety Compliance",
@@ -83,8 +82,8 @@
       "name": "Uber",
       "location": "Amsterdam, Netherlands",
       "position": "Software Engineer Intern",
-      "startDate": "July 2025",
-      "endDate": "Jan 2026",
+      "startDate": "2025-07-01",
+      "endDate": "2026-01-01",
       "highlights": [
         "Designed and implemented an internal tool to simplify data retrieval for our team; built endpoints and frontend",
         "Re-designed and implemented ui routing (for our team products's) to support scalable deployment across multiple UI versions",
@@ -96,8 +95,8 @@
       "name": "WTSS",
       "location": "Rotterdam, Netherlands",
       "position": "Software Engineer Intern",
-      "startDate": "Apr 2025",
-      "endDate": "Jul 2025",
+      "startDate": "2025-04-01",
+      "endDate": "2025-07-01",
       "highlights": [
         "As part of team of 5 students, we created a proof of concept arhitecture from the ground up for their whole software",
         "Built a code generation platform for e2e tests for  Playwright, Appium, and API testing",
@@ -109,8 +108,8 @@
       "location": "Delft, Netherlands",
       "position": "CTO",
       "url": "https://recollectsapp.com/",
-      "startDate": "Oct 2024",
-      "endDate": "Dec 2025",
+      "startDate": "2024-10-01",
+      "endDate": "2025-12-01",
       "highlights": [
         "Designed & built photo journaling app",
         "Shipped Android & iOS app",
@@ -121,8 +120,8 @@
       "name": "Delft University of Technology",
       "location": "Delft, Netherlands",
       "position": "Teaching Assistant",
-      "startDate": "Sep 2024",
-      "endDate": "Nov 2024",
+      "startDate": "2024-09-01",
+      "endDate": "2024-11-01",
       "highlights": [
         "Assisted students in Modelling 2A (AM2050-A TWN) laboratories",
         "Assisted students in Computational Practicum (CH3133)"
@@ -133,8 +132,8 @@
       "location": "Delft, Netherlands",
       "position": "Software Engineer",
       "url": "https://delftmercurians.nl/",
-      "startDate": "Sep 2023",
-      "endDate": "Feb 2025",
+      "startDate": "2023-09-01",
+      "endDate": "2025-02-01",
       "highlights": [
         "Built a Rust-based physics simulator using Bevy and Rapier"
       ]
@@ -156,7 +155,7 @@
     {
       "name": "How Expert Consultation Affects Creativity: The Role of Expert Input in Early Stage Innovation",
       "publisher": "CIJ (CERN IdeaSquare Journal of Experimental Innovation)",
-      "releaseDate": "Dec 2025",
+      "releaseDate": "2025-12-01",
       "url": "https://e-publishing.cern.ch/index.php/CIJ/article/view/1787",
       "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programe, and then I've wrote this paper with my team"
     }
@@ -198,7 +197,8 @@
       "highlights": [
         "Supports 6,000+ coins with real-time market data",
         "Tech stack: Dart (Flutter), Firebase"
-      ]
+      ],
+      "roles": []
     },
     {
       "name": "GDB Driver for Java",
@@ -207,7 +207,8 @@
       "highlights": [
         "Provides a simple CLI abstraction for GDB",
         "Tech stack: Java, GDB"
-      ]
+      ],
+      "roles": []
     },
     {
       "name": "Ultimate Tic-Tac-Toe (Assembly)",
@@ -216,7 +217,8 @@
       "highlights": [
         "ASCII art interface",
         "Tech stack: Assembly (x86_64)"
-      ]
+      ],
+      "roles": []
     },
     {
       "name": "Jarvis",
@@ -224,7 +226,8 @@
       "url": "https://github.com/Teoneag/Jarvis-2",
       "highlights": [
         "Tech stack: Dart (Flutter)"
-      ]
+      ],
+      "roles": []
     }
   ],
   "interests": [],

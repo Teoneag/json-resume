@@ -86,12 +86,23 @@ const EditorPanel = ({
 
 const PreviewPanel = ({
   themes, gridColumns, setGridColumns, currentTheme,
-  jsonContent, cardRefs, handleCardClick
+  jsonContent, cardRefs, handleCardClick, handleDownload, downloading
 }) => (
   <Panel defaultSize={50} minSize={25}>
     <Flex direction="column" h="100%" bg="white">
       <PanelHeader title="Preview">
         <Group gap={5} wrap="nowrap">
+          <Button
+            size="xs"
+            variant="light"
+            onClick={handleDownload}
+            loading={downloading}
+            disabled={gridColumns !== 1}
+            mr="sm"
+            title={gridColumns !== 1 ? "Select a theme first to download" : "Click to download as PDF"}
+          >
+            ↓ Download PDF
+          </Button>
           <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.max(MIN_GRID_COLUMNS, gridColumns - 1))} disabled={gridColumns === MIN_GRID_COLUMNS}>−</ActionIcon>
           <Text size="xs" w={20} ta="center">{gridColumns}</Text>
           <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.min(MAX_GRID_COLUMNS, gridColumns + 1))} disabled={gridColumns === MAX_GRID_COLUMNS}>+</ActionIcon>
@@ -128,6 +139,7 @@ function App() {
   const [savedContent, setSavedContent] = useState(null);
   const [saving, setSaving] = useState(false);
   const [justSaved, setJustSaved] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [gridColumns, setGridColumns] = useState(2);
   const [showDiff, setShowDiff] = useState(false);
   const cardRefs = useRef({});
@@ -189,7 +201,36 @@ function App() {
     }
   }, [jsonContent]);
 
+  const handleDownload = async () => {
+    if (!currentTheme) return;
+    setDownloading(true);
+    try {
+      const response = await fetch(`/api/export-pdf?theme=${currentTheme}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonContent
+      });
+
+      if (!response.ok) throw new Error('Export failed');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `resume-${currentTheme}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Failed to download PDF');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   useEffect(() => { if (hasChanges) setJustSaved(false); }, [hasChanges]);
+
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -241,6 +282,8 @@ function App() {
           jsonContent={jsonContent}
           cardRefs={cardRefs}
           handleCardClick={handleCardClick}
+          handleDownload={handleDownload}
+          downloading={downloading}
         />
       </PanelGroup>
     </Box>

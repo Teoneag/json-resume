@@ -2,13 +2,27 @@
 import express from 'express';
 import fs from 'fs/promises';
 import path from 'path';
-import { render } from 'resumed';
+import { render, pdf } from 'resumed';
 
 const app = express();
 const PORT = 3001;
 const RESUME_PATH = path.resolve('resume.json');
 
 app.use(express.json({ limit: '50mb' }));
+
+async function getRenderedHtml(resume, themeName) {
+    const pkgName = `jsonresume-theme-${themeName}`;
+    const theme = await import(pkgName);
+
+    try {
+        return await render(resume, theme);
+    } catch (e1) {
+        if (theme.render) return await theme.render(resume);
+        if (theme.default?.render) return await theme.default.render(resume);
+        if (typeof theme.default === 'function') return await theme.default(resume);
+        throw new Error('No render method found');
+    }
+}
 
 app.get('/api/themes', async (req, res) => {
     try {
@@ -31,35 +45,29 @@ app.post('/api/save', async (req, res) => {
 });
 
 app.post('/render', async (req, res) => {
-    const pkgName = `jsonresume-theme-${req.query.theme}`;
     try {
-        const theme = await import(pkgName);
-
-        // Try multiple render strategies
-        try {
-            // Strategy 1: Use resumed's render
-            res.send(await render(req.body, theme));
-        } catch (e1) {
-            try {
-                // Strategy 2: Direct theme.render
-                if (theme.render) {
-                    res.send(await theme.render(req.body));
-                } else if (theme.default?.render) {
-                    res.send(await theme.default.render(req.body));
-                } else if (typeof theme.default === 'function') {
-                    // Strategy 3: Default export is the render function
-                    res.send(await theme.default(req.body));
-                } else {
-                    throw new Error('No render method found');
-                }
-            } catch (e2) {
-                console.error(`Render failed for ${pkgName}:`, e2.message);
-                res.status(500).send(`<h1>Theme Error</h1><p>${e2.message}</p>`);
-            }
-        }
+        const html = await getRenderedHtml(req.body, req.query.theme);
+        res.send(html);
     } catch (e) {
-        console.error(`Import failed for ${pkgName}:`, e.message);
-        res.status(500).send(`<h1>Theme Not Found</h1><p>${e.message}</p>`);
+        console.error(`Render failed:`, e.message);
+        res.status(500).send(`<h1>Render Error</h1><p>${e.message}</p>`);
+    }
+});
+
+app.post('/api/export-pdf', async (req, res) => {
+    try {
+        const themeName = req.query.theme;
+        const html = await getRenderedHtml(req.body, themeName);
+        const theme = await import(`jsonresume-theme-${themeName}`);
+
+        const pdfBuffer = await pdf(html, req.body, theme);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=resume-${themeName}.pdf`);
+        res.send(Buffer.from(pdfBuffer));
+    } catch (e) {
+        console.error(`PDF Export failed:`, e.message);
+        res.status(500).send('PDF Export failed');
     }
 });
 
