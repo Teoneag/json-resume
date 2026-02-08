@@ -4,16 +4,16 @@
     "name": "Teodor Neagoe",
     "label": "Software Engineer | Student | Founder",
     "image": "",
-    "email": "teodor.neagoe.climber@gmail.com",
-    "phone": "+40 773 837 073",
-    "url": "https://github.com/Teoneag",
+    "-email": "teodor.neagoe.climber@gmail.com",
+    "-phone": "+40 773 837 073",
+    "-url": "https://github.com/Teoneag",
     "summary": "Software Engineer with experience in production app development (Uber internship; Recollect CTO; YellowDocs Technical Co-Founder), robotics (RoboCup participant), and AI-driven systems (honours research at TU Delft; Ekkie.ai founding-engineer)",
     "location": {
-      "city": "Delft",
-      "region": "South Holland",
-      "countryCode": "NL"
+      "city": "2004-06-08",
+      "-region": "South Holland",
+      "-countryCode": "NL"
     },
-    "profiles": [
+    "-profiles": [
       {
         "network": "GitHub",
         "username": "Teoneag",
@@ -195,8 +195,8 @@
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "23",
-    "lastModified": "2026-02-08T13:02:12.185Z",
+    "version": "24",
+    "lastModified": "2026-02-08T13:26:09.247Z",
     "theme": "jsonresume-theme-tech"
   }
 }
