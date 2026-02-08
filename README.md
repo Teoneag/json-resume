@@ -3,6 +3,15 @@
 
 Local visualization tool for [JSON Resume](https://jsonresume.org/).
 
+Big library of themes to choose from:
+
+![Preview 4 col](images/ss-4-cols.png)
+
+After you select a theme, you can see the live preview:
+
+![Preview 1 col](images/ss-1-col.png)
+
+
 ## Getting Started
 
 1.  Install & Run
