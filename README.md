@@ -19,12 +19,9 @@ npm install jsonresume-theme-<name>
 ```
 (Restart server to load new themes).
 
-## Usage
-*   **Edit:** Modify `resume.json` on the left.
-*   **Preview:** See changes live on the right.
-*   **Export:** Use browser's **Print -> Save as PDF**.
+## ToDo
 
-## Structure
-*   `resume.json`: Your data.
-*   `server/`: Backend API & Renderer.
-*   `client/`: React Frontend (Port 5173).
+- figure out why image doesn't work
+- upload image
+- click on text on the right and select on the left (like latex)
+- make my own theme

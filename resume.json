@@ -1,165 +1,238 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
-    "name": "Richard Hendriks",
-    "label": "Programmer",
-    "image": "",
-    "email": "richard.hendriks@mail.com",
-    "phone": "(912) 555-4321",
-    "url": "http://richardhendricks.example.com",
-    "summary": "Richard hails from Tulsa. He has earned degrees from the University of Oklahoma and Stanford. (Go Sooners and Cardinal!) Before starting Pied Piper, he worked for Hooli as a part time software developer. While his work focuses on applied information theory, mostly optimizing lossless compression schema of both the length-limited and adaptive variants, his non-work interests range widely, everything from quantum computing to chaos theory. He could tell you about it, but THAT would NOT be a “length-limited” conversation!",
+    "name": "Teodor Neagoe",
+    "label": "Software Engineer | Student | Founder",
+    "image": "https://drive.google.com/file/d/1JBmeMM30tNUcizyB0CAsQzgDH0HbnWEY/view?usp=sharing",
+    "email": "teodor.neagoe.climber@gmail.com",
+    "phone": "+40 773 837 073",
+    "url": "https://github.com/Teoneag",
+    "summary": "Software Engineer with experience in production app development (Uber internship; Recollect CTO; YellowDocs Technical Co-Founder), robotics (RoboCup participant), and AI-driven systems (honours research at TU Delft; Ekkie.ai founding-engineer)",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "city": "Delft",
+      "region": "South Holland",
+      "countryCode": "NL"
     },
     "profiles": [
       {
-        "network": "Twitter",
-        "username": "neutralthoughts",
-        "url": "https://www.twitter.com"
+        "network": "GitHub",
+        "username": "Teoneag",
+        "url": "https://github.com/Teoneag"
       },
       {
-        "network": "SoundCloud",
-        "username": "dandymusicnl",
-        "url": "https://soundcloud.example.com/dandymusicnl"
+        "network": "LinkedIn",
+        "username": "teodor-neagoe",
+        "url": "https://www.linkedin.com/in/teodor-neagoe"
       }
     ]
   },
-  "work": [
-    {
-      "name": "Pied Piper",
-      "location": "Palo Alto, CA",
-      "description": "Awesome compression company",
-      "position": "CEO/President",
-      "url": "http://piedpiper.example.com",
-      "startDate": "2013-12-01",
-      "endDate": "2014-12-01",
-      "summary": "Pied Piper is a multi-platform technology based on a proprietary universal compression algorithm that has consistently fielded high Weisman Scores™ that are not merely competitive, but approach the theoretical limit of lossless compression.",
-      "highlights": [
-        "Build an algorithm for artist to detect if their music was violating copy right infringement laws",
-        "Successfully won Techcrunch Disrupt",
-        "Optimized an algorithm that holds the current world record for Weisman Scores"
-      ]
-    }
-  ],
-  "volunteer": [
-    {
-      "organization": "CoderDojo",
-      "position": "Teacher",
-      "url": "http://coderdojo.example.com/",
-      "startDate": "2012-01-01",
-      "endDate": "2013-01-01",
-      "summary": "Global movement of free coding clubs for young people.",
-      "highlights": [
-        "Awarded 'Teacher of the Month'"
-      ]
-    }
-  ],
   "education": [
     {
-      "institution": "University of Oklahoma",
-      "url": "https://www.ou.edu/",
-      "area": "Information Technology",
-      "studyType": "Bachelor",
-      "startDate": "2011-06-01",
-      "endDate": "2014-01-01",
-      "score": "4.0",
+      "institution": "Delft University of Technology",
+      "area": "Computer Science & Engineering",
+      "studyType": "Honours BSc",
+      "startDate": "Sep 2023",
+      "endDate": "",
       "courses": [
-        "DB1101 - Basic SQL",
-        "CS2011 - Java Introduction"
-      ]
-    }
-  ],
-  "awards": [
-    {
-      "title": "Digital Compression Pioneer Award",
-      "date": "2014-11-01",
-      "awarder": "Techcrunch",
-      "summary": "There is no spoon."
-    }
-  ],
-  "publications": [
-    {
-      "name": "Video compression for 3d media",
-      "publisher": "Hooli",
-      "releaseDate": "2014-10-01",
-      "url": "http://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
-      "summary": "Innovative middle-out compression algorithm that changes the way we store data."
-    }
-  ],
-  "skills": [
-    {
-      "name": "Web Development",
-      "level": "Master",
-      "keywords": [
-        "HTML",
-        "CSS",
-        "Javascript"
+        "Quantum Science and Quantum Information Minor",
+        "Honours research: Value Alignment in LLM Responses",
+        "OOP Project: Full-stack expense splitter (Spring Boot, JavaFX",
+        "Ray tracer in C++ with OpenGL",
+        "Interpreter with desugarer and type checker in Scala",
+        "Quantum Engineering Project: Implemented Two Semi-Quantum kNN Algorithms with Python (Qiskit)"
       ]
     },
     {
-      "name": "Compression",
-      "level": "Master",
-      "keywords": [
-        "Mpeg",
-        "MP4",
-        "GIF"
+      "institution": "\"Andrei Șaguna\" National College",
+      "area": "Mathematics & Computer Science",
+      "studyType": "High School",
+      "startDate": "2019",
+      "endDate": "2023"
+    }
+  ],
+  "work": [
+    {
+      "name": "Ekkie.ai",
+      "location": "Rozendaal, Netherlands",
+      "position": "Founding Engineer (Part-time)",
+      "startDate": "Jan 2026",
+      "summary": "",
+      "url": "https://www.ekkie.ai",
+      "highlights": [
+        "Rebuilt the dispatcher (1 of 3 products sold to customers) from 0 in Python within the first 2 weeks",
+        "Designing & building the new deterministic engine using Spring Boot Kotlin (previously implemented in Python)",
+        "Working with Autotask, Topdesk, and the Azure suite (Graph API, SQL, Language Server, Blob Storage, ...)",
+        "Tech stack: Kotlin (Spring Boot), Python (Microsoft Agent Framework) TypeScript (Next.js)"
+      ]
+    },
+    {
+      "name": "YellowDocs.com",
+      "location": "Delft, Netherlands",
+      "position": "Technical Co-founder",
+      "startDate": "Dec 2025",
+      "url": "https://yellowdocs.com/",
+      "highlights": [
+        "B2B SaaS startup for Health & Safety Compliance",
+        "Secured 2 paying customers within the first 2 months (both interested in investing)",
+        "Implemented tenancy management with Supabase RLS",
+        "Developed both Web & mobile UI",
+        "Tech stack: Supabase, TypeScript (React + Vite)"
+      ]
+    },
+    {
+      "name": "Uber",
+      "location": "Amsterdam, Netherlands",
+      "position": "Software Engineer Intern",
+      "startDate": "July 2025",
+      "endDate": "Jan 2026",
+      "highlights": [
+        "Designed and implemented an internal tool to simplify data retrieval for our team; built endpoints and frontend",
+        "Re-designed and implemented ui routing (for our team products's) to support scalable deployment across multiple UI versions",
+        "Onboarded the team to a new observability tool, improving monitoring and debugging capabilities for our product with funneling",
+        "Tech stack: Go (Fx), TypeScript (React + Fusion.js), Protobuf, Phabricator, nginx"
+      ]
+    },
+    {
+      "name": "WTSS",
+      "location": "Rotterdam, Netherlands",
+      "position": "Software Engineer Intern",
+      "startDate": "Apr 2025",
+      "endDate": "Jul 2025",
+      "highlights": [
+        "As part of team of 5 students, we created a proof of concept arhitecture from the ground up for their whole software",
+        "Built a code generation platform for e2e tests for  Playwright, Appium, and API testing",
+        "Tech stack: Java (Spring Boot), TypeScript (React), Playwright, Appium, Docker"
+      ]
+    },
+    {
+      "name": "Recollect",
+      "location": "Delft, Netherlands",
+      "position": "CTO",
+      "url": "https://recollectsapp.com/",
+      "startDate": "Oct 2024",
+      "endDate": "Dec 2025",
+      "highlights": [
+        "Designed & built photo journaling app",
+        "Shipped Android & iOS app",
+        "Tech stack: Dart (Flutter), Firebase"
+      ]
+    },
+    {
+      "name": "Delft University of Technology",
+      "location": "Delft, Netherlands",
+      "position": "Teaching Assistant",
+      "startDate": "Sep 2024",
+      "endDate": "Nov 2024",
+      "highlights": [
+        "Assisted students in Modelling 2A (AM2050-A TWN) laboratories",
+        "Assisted students in Computational Practicum (CH3133)"
+      ]
+    },
+    {
+      "name": "Delft Mercurians - Tu Delft's RoboCup Team",
+      "location": "Delft, Netherlands",
+      "position": "Software Engineer",
+      "url": "https://delftmercurians.nl/",
+      "startDate": "Sep 2023",
+      "endDate": "Feb 2025",
+      "highlights": [
+        "Built a Rust-based physics simulator using Bevy and Rapier"
       ]
     }
   ],
   "languages": [
     {
       "language": "English",
-      "fluency": "Native speaker"
+      "fluency": "Fluent"
+    },
+    {
+      "language": "Romanian",
+      "fluency": "Native"
     }
   ],
-  "interests": [
+  "volunteer": [],
+  "awards": [],
+  "publications": [
     {
-      "name": "Wildlife",
+      "name": "How Expert Consultation Affects Creativity: The Role of Expert Input in Early Stage Innovation",
+      "publisher": "CIJ (CERN IdeaSquare Journal of Experimental Innovation)",
+      "releaseDate": "Dec 2025",
+      "url": "https://e-publishing.cern.ch/index.php/CIJ/article/view/1787",
+      "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programe, and then I've wrote this paper with my team"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming languages & Frameworks",
       "keywords": [
-        "Ferrets",
-        "Unicorns"
+        "Dart (Flutter, Firebase)",
+        "Java (Spring Boot, JavaFX)",
+        "Python",
+        "Kotlin (Spring Boot)",
+        "Go (Fx)",
+        "TypeScript (React, Fusion.js, Next.js, Supabase)",
+        "Rust (Bevy, Rapier)",
+        "C++ (Arduino, OpenGL, Competitive Programming)",
+        "Scala",
+        "Assembly (x86_64)",
+        "HTML, CSS, JavaScript",
+        "SQL",
+        "AutoHotkey"
       ]
-    }
-  ],
-  "references": [
+    },
     {
-      "name": "Erlich Bachman",
-      "reference": "It is my pleasure to recommend Richard, his performance working as a consultant for Main St. Company proved that he will be a valuable addition to any company."
+      "name": "Other Tools & Platforms",
+      "keywords": [
+        "Git, GitHub, GitLab, Phabricator",
+        "Playwright, Appium",
+        "Microsoft Azure",
+        "Docker"
+      ]
     }
   ],
   "projects": [
     {
-      "name": "Miss Direction",
-      "description": "A mapping engine that misguides you",
+      "name": "CoinSky",
+      "description": "Flutter-based cryptocurrency wallet.",
+      "url": "https://github.com/Teoneag/CoinSky",
       "highlights": [
-        "Won award at AIHacks 2016",
-        "Built by all women team of newbie programmers",
-        "Using modern technologies such as GoogleMaps, Chrome Extension and Javascript"
-      ],
-      "keywords": [
-        "GoogleMaps",
-        "Chrome Extension",
-        "Javascript"
-      ],
-      "startDate": "2016-08-24",
-      "endDate": "2016-08-24",
-      "url": "http://missdirection.example.com",
-      "roles": [
-        "Team lead",
-        "Designer"
-      ],
-      "entity": "Smoogle",
-      "type": "application"
+        "Supports 6,000+ coins with real-time market data",
+        "Tech stack: Dart (Flutter), Firebase"
+      ]
+    },
+    {
+      "name": "GDB Driver for Java",
+      "description": "Java library for easier GDB debugging.",
+      "url": "https://github.com/Teoneag/GDB-Driver-for-Java",
+      "highlights": [
+        "Provides a simple CLI abstraction for GDB",
+        "Tech stack: Java, GDB"
+      ]
+    },
+    {
+      "name": "Ultimate Tic-Tac-Toe (Assembly)",
+      "description": "Complete Ultimate Tic-Tac-Toe game in x86_64 assembly.",
+      "url": "https://github.com/Teoneag/Ultimate-Tic-Tac-Toe-Assembly",
+      "highlights": [
+        "ASCII art interface",
+        "Tech stack: Assembly (x86_64)"
+      ]
+    },
+    {
+      "name": "Jarvis",
+      "description": "Personal assistant app inspired by Alexa, Todoist, and Notion.",
+      "url": "https://github.com/Teoneag/Jarvis-2",
+      "highlights": [
+        "Tech stack: Dart (Flutter)"
+      ]
     }
   ],
+  "interests": [],
+  "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
     "version": "v16.0.0",
-    "lastModified": "2026-02-07T19:11:16.931Z",
+    "lastModified": "2026-02-08T11:27:26.564Z",
     "theme": "jsonresume-theme-tech"
   }
 }
