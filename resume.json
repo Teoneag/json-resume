@@ -29,29 +29,19 @@
   "education": [
     {
       "institution": "Delft University of Technology",
-      "area": "Computer Science & Engineering",
+      "area": "Computer Science & Engineering with Quantum Science & Quantum Information Minor",
       "studyType": "Honours BSc",
       "startDate": "2023-09-01",
       "courses": [
-        "Quantum Science and Quantum Information Minor",
-        "Honours research: Value Alignment in LLM Responses",
         "OOP Project: Full-stack expense splitter (Spring Boot, JavaFX",
-        "Ray tracer in C++ with OpenGL",
-        "Interpreter with desugarer and type checker in Scala",
-        "Quantum Engineering Project: Implemented Two Semi-Quantum kNN Algorithms with Python (Qiskit)"
+        "Interpreter with desugarer & type checker in Scala; Ray tracer in C++ with OpenGL",
+        "Quantum Engineering Project: Implemented qkNN in Python (Qiskit) "
       ]
-    },
-    {
-      "institution": "\"Andrei Șaguna\" National College",
-      "area": "Mathematics & Computer Science",
-      "studyType": "High School",
-      "startDate": "2019-09-01",
-      "endDate": "2023-06-30"
     }
   ],
   "work": [
     {
-      "name": "Ekkie.ai",
+      "name": "Ekkie.ai - AI B2B Saas startup for MSP",
       "location": "Rozendaal, Netherlands",
       "position": "Founding Engineer (Part-time)",
       "startDate": "2026-01-01",
@@ -60,20 +50,17 @@
       "highlights": [
         "Rebuilt the dispatcher (1 of 3 products sold to customers) from 0 in Python within the first 2 weeks",
         "Designing & building the new deterministic engine using Spring Boot Kotlin (previously implemented in Python)",
-        "Working with Autotask, Topdesk, and the Azure suite (Graph API, SQL, Language Server, Blob Storage, ...)",
-        "Tech stack: Kotlin (Spring Boot), Python (Microsoft Agent Framework) TypeScript (Next.js)"
+        "Tech stack: Kotlin (Spring Boot), Python (Microsoft Agent Framework) TypeScript (Next.js), Autotask, Topdesk, Azure suite (Graph, SQL, Blob)"
       ]
     },
     {
-      "name": "YellowDocs.com",
+      "name": "YellowDocs.com - B2B SaaS startup for Health & Safety Compliance",
       "location": "Delft, Netherlands",
       "position": "Technical Co-founder",
       "startDate": "2025-12-01",
       "url": "https://yellowdocs.com/",
       "highlights": [
-        "B2B SaaS startup for Health & Safety Compliance",
         "Secured 2 paying customers within the first 2 months (both interested in investing)",
-        "Implemented tenancy management with Supabase RLS",
         "Developed both Web & mobile UI",
         "Tech stack: Supabase, TypeScript (React + Vite)"
       ]
@@ -85,9 +72,9 @@
       "startDate": "2025-07-01",
       "endDate": "2026-01-01",
       "highlights": [
-        "Designed and implemented an internal tool to simplify data retrieval for our team; built endpoints and frontend",
-        "Re-designed and implemented ui routing (for our team products's) to support scalable deployment across multiple UI versions",
-        "Onboarded the team to a new observability tool, improving monitoring and debugging capabilities for our product with funneling",
+        "Designed & implemented an internal tool to simplify data retrieval for our team; built endpoints & frontend",
+        "Re-designed & implemented ui routing (for our team products's) to support scalable deployment across multiple UI versions",
+        "Onboarded the team to a new observability tool, improving monitoring & debugging capabilities for our product with funneling",
         "Tech stack: Go (Fx), TypeScript (React + Fusion.js), Protobuf, Phabricator, nginx"
       ]
     },
@@ -117,17 +104,6 @@
       ]
     },
     {
-      "name": "Delft University of Technology",
-      "location": "Delft, Netherlands",
-      "position": "Teaching Assistant",
-      "startDate": "2024-09-01",
-      "endDate": "2024-11-01",
-      "highlights": [
-        "Assisted students in Modelling 2A (AM2050-A TWN) laboratories",
-        "Assisted students in Computational Practicum (CH3133)"
-      ]
-    },
-    {
       "name": "Delft Mercurians - Tu Delft's RoboCup Team",
       "location": "Delft, Netherlands",
       "position": "Software Engineer",
@@ -135,29 +111,35 @@
       "startDate": "2023-09-01",
       "endDate": "2025-02-01",
       "highlights": [
-        "Built a Rust-based physics simulator using Bevy and Rapier"
+        "Built a Rust-based physics simulator using Bevy & Rapier"
       ]
     }
   ],
-  "languages": [
+  "projects": [
     {
-      "language": "English",
-      "fluency": "Fluent"
+      "name": "CoinSky - Flutter Firebase crypto wallet",
+      "url": "https://github.com/Teoneag/CoinSky",
+      "highlights": [],
+      "roles": []
     },
     {
-      "language": "Romanian",
-      "fluency": "Native"
-    }
-  ],
-  "volunteer": [],
-  "awards": [],
-  "publications": [
+      "name": "GDB Driver for Java - Java library for easier GDB debugging",
+      "description": "",
+      "url": "https://github.com/Teoneag/GDB-Driver-for-Java",
+      "highlights": [],
+      "roles": []
+    },
     {
-      "name": "How Expert Consultation Affects Creativity: The Role of Expert Input in Early Stage Innovation",
-      "publisher": "CIJ (CERN IdeaSquare Journal of Experimental Innovation)",
-      "releaseDate": "2025-12-01",
-      "url": "https://e-publishing.cern.ch/index.php/CIJ/article/view/1787",
-      "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programe, and then I've wrote this paper with my team"
+      "name": "Ultimate Tic-Tac-Toe in Assembly x86_64",
+      "url": "https://github.com/Teoneag/Ultimate-Tic-Tac-Toe-Assembly",
+      "highlights": [],
+      "roles": []
+    },
+    {
+      "name": "Jarvis - Flutter Firebase Personal assistant (Alexa + Todoist + Notion)",
+      "url": "https://github.com/Teoneag/Jarvis-2",
+      "highlights": [],
+      "roles": []
     }
   ],
   "skills": [
@@ -175,8 +157,7 @@
         "Scala",
         "Assembly (x86_64)",
         "HTML, CSS, JavaScript",
-        "SQL",
-        "AutoHotkey"
+        "SQL"
       ]
     },
     {
@@ -189,53 +170,33 @@
       ]
     }
   ],
-  "projects": [
+  "-publications": [
     {
-      "name": "CoinSky",
-      "description": "Flutter-based cryptocurrency wallet.",
-      "url": "https://github.com/Teoneag/CoinSky",
-      "highlights": [
-        "Supports 6,000+ coins with real-time market data",
-        "Tech stack: Dart (Flutter), Firebase"
-      ],
-      "roles": []
-    },
-    {
-      "name": "GDB Driver for Java",
-      "description": "Java library for easier GDB debugging.",
-      "url": "https://github.com/Teoneag/GDB-Driver-for-Java",
-      "highlights": [
-        "Provides a simple CLI abstraction for GDB",
-        "Tech stack: Java, GDB"
-      ],
-      "roles": []
-    },
-    {
-      "name": "Ultimate Tic-Tac-Toe (Assembly)",
-      "description": "Complete Ultimate Tic-Tac-Toe game in x86_64 assembly.",
-      "url": "https://github.com/Teoneag/Ultimate-Tic-Tac-Toe-Assembly",
-      "highlights": [
-        "ASCII art interface",
-        "Tech stack: Assembly (x86_64)"
-      ],
-      "roles": []
-    },
-    {
-      "name": "Jarvis",
-      "description": "Personal assistant app inspired by Alexa, Todoist, and Notion.",
-      "url": "https://github.com/Teoneag/Jarvis-2",
-      "highlights": [
-        "Tech stack: Dart (Flutter)"
-      ],
-      "roles": []
+      "name": "How Expert Consultation Affects Creativity: The Role of Expert Input in Early Stage Innovation",
+      "publisher": "CIJ (CERN IdeaSquare Journal of Experimental Innovation)",
+      "releaseDate": "2025-12-01",
+      "url": "https://e-publishing.cern.ch/index.php/CIJ/article/view/1787",
+      "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programe, and then I've wrote this paper with my team"
     }
   ],
+  "-languages": [
+    {
+      "language": "English",
+      "fluency": "Fluent"
+    },
+    {
+      "language": "Romanian",
+      "fluency": "Native"
+    }
+  ],
+  "volunteer": [],
+  "awards": [],
   "interests": [],
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "v16.0.0",
-    "lastModified": "2026-02-08T11:27:26.564Z",
+    "version": "16",
+    "lastModified": "2026-02-08T12:27:36.474Z",
     "theme": "jsonresume-theme-tech"
   }
 }

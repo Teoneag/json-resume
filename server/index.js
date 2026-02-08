@@ -57,14 +57,35 @@ app.post('/render', async (req, res) => {
 app.post('/api/export-pdf', async (req, res) => {
     try {
         const themeName = req.query.theme;
-        const html = await getRenderedHtml(req.body, themeName);
+        let resume = req.body;
+
+        // Increment version in resume.json
+        const currentVersion = parseInt(resume.meta?.version || '0');
+        const nextVersion = currentVersion + 1;
+
+        if (!resume.meta) resume.meta = {};
+        resume.meta.version = nextVersion.toString();
+        resume.meta.lastModified = new Date().toISOString();
+
+        // Save updated resume.json
+        await fs.writeFile(RESUME_PATH, JSON.stringify(resume, null, 2));
+
+        const html = await getRenderedHtml(resume, themeName);
         const theme = await import(`jsonresume-theme-${themeName}`);
+        const pdfBuffer = await pdf(html, resume, theme);
 
-        const pdfBuffer = await pdf(html, req.body, theme);
+        const fileName = `Teodor-Neagoe-CV-1-page-v${nextVersion}.pdf`;
+        const outputPath = path.resolve('..', fileName);
 
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename=resume-${themeName}.pdf`);
-        res.send(Buffer.from(pdfBuffer));
+        await fs.writeFile(outputPath, Buffer.from(pdfBuffer));
+        console.log(`PDF saved to: ${outputPath}`);
+
+        res.json({
+            success: true,
+            version: nextVersion.toString(),
+            fileName,
+            path: outputPath
+        });
     } catch (e) {
         console.error(`PDF Export failed:`, e.message);
         res.status(500).send('PDF Export failed');

@@ -21,7 +21,9 @@ npm install jsonresume-theme-<name>
 
 ## ToDo
 
+- think about scrolling logic (I wanna see how it would look like on pdf with pages + I have to be able to click to select)
+- refactor by hand to lean React properly
 - figure out why image doesn't work
 - upload image
 - click on text on the right and select on the left (like latex)
-- make my own theme
+- make my own theme + allow which things to show

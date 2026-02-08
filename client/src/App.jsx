@@ -99,9 +99,9 @@ const PreviewPanel = ({
             loading={downloading}
             disabled={gridColumns !== 1}
             mr="sm"
-            title={gridColumns !== 1 ? "Select a theme first to download" : "Click to download as PDF"}
+            title={gridColumns !== 1 ? "Select a theme first to export" : "Click to export as PDF to CV dir"}
           >
-            ↓ Download PDF
+            Export PDF
           </Button>
           <ActionIcon variant="default" size="sm" onClick={() => setGridColumns(Math.max(MIN_GRID_COLUMNS, gridColumns - 1))} disabled={gridColumns === MIN_GRID_COLUMNS}>−</ActionIcon>
           <Text size="xs" w={20} ta="center">{gridColumns}</Text>
@@ -213,17 +213,19 @@ function App() {
 
       if (!response.ok) throw new Error('Export failed');
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `resume-${currentTheme}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
+      const result = await response.json();
+
+      // Update local state with the new version
+      const parsed = JSON.parse(jsonContent);
+      parsed.meta.version = result.version;
+      const updated = JSON.stringify(parsed, null, 2);
+      setJsonContent(updated);
+      setSavedContent(updated);
+
+      alert(`Export successful!\nVersion bumped to ${result.version}\nSaved to: ${result.path}`);
     } catch (error) {
       console.error('Download error:', error);
-      alert('Failed to download PDF');
+      alert('Failed to export PDF');
     } finally {
       setDownloading(false);
     }
