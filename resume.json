@@ -30,7 +30,7 @@
     {
       "institution": "Delft University of Technology",
       "area": "Computer Science & Engineering with Quantum Science & Quantum Information Minor",
-      "studyType": "Honours BSc",
+      "studyType": "Bachelor of Science (Honours)",
       "startDate": "2023-09-01",
       "courses": [
         "OOP Project: Full-stack expense splitter (Spring Boot, JavaFX",
@@ -195,8 +195,8 @@
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "17",
-    "lastModified": "2026-02-08T12:39:33.373Z",
+    "version": "23",
+    "lastModified": "2026-02-08T13:02:12.185Z",
     "theme": "jsonresume-theme-tech"
   }
 }
