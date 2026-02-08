@@ -60,8 +60,24 @@ app.post('/api/export-pdf', async (req, res) => {
         let resume = req.body;
 
         // Increment version in resume.json
-        const currentVersion = parseInt(resume.meta?.version || '0');
+        const currentVersionStr = resume.meta?.version || '0';
+        const currentVersion = parseInt(currentVersionStr);
         const nextVersion = currentVersion + 1;
+
+        // Move current PDF to 'old' directory
+        const currentFileName = `Teodor-Neagoe-CV-1-page-v${currentVersionStr}.pdf`;
+        const currentPath = path.resolve('..', currentFileName);
+        const oldDirPath = path.resolve('..', 'old');
+        const archivePath = path.resolve(oldDirPath, currentFileName);
+
+        try {
+            await fs.access(currentPath);
+            await fs.mkdir(oldDirPath, { recursive: true });
+            await fs.rename(currentPath, archivePath);
+            console.log(`Archived ${currentFileName} to old/`);
+        } catch (err) {
+            // File doesn't exist or other error, ignore
+        }
 
         if (!resume.meta) resume.meta = {};
         resume.meta.version = nextVersion.toString();

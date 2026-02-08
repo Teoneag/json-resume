@@ -41,7 +41,7 @@
   ],
   "work": [
     {
-      "name": "Ekkie.ai - AI B2B Saas startup for MSP",
+      "name": "Ekkie.ai",
       "location": "Rozendaal, Netherlands",
       "position": "Founding Engineer (Part-time)",
       "startDate": "2026-01-01",
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "name": "YellowDocs.com - B2B SaaS startup for Health & Safety Compliance",
+      "name": "YellowDocs.com",
       "location": "Delft, Netherlands",
       "position": "Technical Co-founder",
       "startDate": "2025-12-01",
@@ -195,8 +195,8 @@
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "16",
-    "lastModified": "2026-02-08T12:27:36.474Z",
+    "version": "17",
+    "lastModified": "2026-02-08T12:39:33.373Z",
     "theme": "jsonresume-theme-tech"
   }
 }
