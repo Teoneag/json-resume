@@ -42,7 +42,7 @@
   "work": [
     {
       "name": "Ekkie.ai",
-      "location": "Rozendaal, Netherlands",
+      "location": "Roosendaal, Netherlands",
       "position": "Founding Engineer (Part-time)",
       "startDate": "2026-01-01",
       "summary": "",
@@ -85,7 +85,7 @@
       "startDate": "2025-04-01",
       "endDate": "2025-07-01",
       "highlights": [
-        "As part of team of 5 students, we created a proof of concept arhitecture from the ground up for their whole software",
+        "As part of team of 5 students, we created a proof of concept architecture from the ground up for their whole software",
         "Built a code generation platform for e2e tests for  Playwright, Appium, and API testing",
         "Tech stack: Java (Spring Boot), TypeScript (React), Playwright, Appium, Docker"
       ]
@@ -196,7 +196,7 @@
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
     "version": "23",
-    "lastModified": "2026-02-08T13:02:12.185Z",
+    "lastModified": "2026-03-26T14:22:13.213Z",
     "theme": "jsonresume-theme-tech"
   }
 }
