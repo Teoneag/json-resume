@@ -23,16 +23,12 @@
   <div class='basicsBlock'>
     <div class='contactBlock'>
       {{#location}}{{#if address}}{{address}}{{/if}}{{#if city}}{{#if address}} • {{/if}}{{city}}{{/if}}{{#if region}}{{#if city}}, {{/if}}{{region}}{{/if}} {{#if postalCode}}{{postalCode}}{{/if}}{{/location}}
-      {{#if phone}}<span class='divider'>•</span><span class='phone'>Phone: {{phone}}</span>{{/if}}
-      {{#if email}}<span class='divider'>•</span><span class='email'>Email: {{email}}</span>{{/if}}
-    </div>
-    {{#if profiles.length}}
-    <div class='profilesBlock'>
+      {{#if phone}}<span class='divider'>•</span><span class='phone'>{{phone}}</span>{{/if}}
+      {{#if email}}<span class='divider'>•</span><span class='email'>{{email}}</span>{{/if}}
       {{#each profiles}}
-        {{#if url}}<span class='url'><a href='{{url}}'>{{network}}</a></span>{{#unless @last}}<span class='divider'>•</span>{{/unless}}{{/if}}
+        {{#if url}}<span class='divider'>•</span><span class='url'><a href='{{url}}'>{{network}}</a></span>{{/if}}
       {{/each}}
     </div>
-    {{/if}}
   </div>
 	{{/resume.basics}}
 

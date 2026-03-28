@@ -42,7 +42,7 @@ a:hover {
 .resume {
   margin: 0 auto;
   max-width: 750px;
-  padding: 30px 50px;
+  padding: 30px 80px;
   background: #fff;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 4px #aaa;
@@ -60,7 +60,7 @@ a:hover {
 
 .sectionLine {
   border-bottom: 1px solid #999;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   width: 100%;
 }
 
@@ -71,7 +71,7 @@ a:hover {
 
 /* Add spacing after each section except the last one */
 .resume > div:not(:last-child) {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 /* Reduce spacing specifically for skills section */
@@ -150,8 +150,8 @@ a:hover {
 
 .projects .separator {
   height: 0;
-  margin-top: 1px;
-  margin-bottom: 1px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Separators */
@@ -186,8 +186,8 @@ a:hover {
 .basicsBlock {
   font-size: 12px;
   text-align: center;
-  margin-top: 3px;
-  margin-bottom: 8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 /* Education elements */

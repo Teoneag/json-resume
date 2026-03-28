@@ -74,7 +74,7 @@
       "endDate": "2026-01-01",
       "highlights": [
         "Designed & implemented an internal tool to simplify data retrieval for our team; built endpoints & frontend",
-        "Re-designed & implemented ui routing (for our team products's) to support scalable deployment across multiple UI versions",
+        "Re-designed & implemented ui routing (for our team products) to support scalable deployment across multiple UI versions",
         "Onboarded the team to a new observability tool, improving monitoring & debugging capabilities for our product with funneling",
         "Tech stack: Go (Fx), TypeScript (React + Fusion.js), Protobuf, Phabricator, nginx"
       ]
@@ -87,7 +87,7 @@
       "endDate": "2025-07-01",
       "highlights": [
         "As part of team of 5 students, we created a proof of concept architecture from the ground up for their whole software",
-        "Built a code generation platform for e2e tests for  Playwright, Appium, and API testing",
+        "Built a code generation platform for e2e tests for Playwright, Appium, and API testing",
         "Tech stack: Java (Spring Boot), TypeScript (React), Playwright, Appium, Docker"
       ]
     },
@@ -172,11 +172,21 @@
     }
   ],
   "interests": [
-    { "name": "Robotics" },
-    { "name": "aeromodelling" },
-    { "name": "bouldering" },
-    { "name": "chess" },
-    { "name": "skiing" }
+    {
+      "name": "Robotics"
+    },
+    {
+      "name": "Aeromodelling"
+    },
+    {
+      "name": "Bouldering"
+    },
+    {
+      "name": "Chess"
+    },
+    {
+      "name": "Skiing"
+    }
   ],
   "-publications": [
     {
@@ -184,7 +194,7 @@
       "publisher": "CIJ (CERN IdeaSquare Journal of Experimental Innovation)",
       "releaseDate": "2025-12-01",
       "url": "https://e-publishing.cern.ch/index.php/CIJ/article/view/1787",
-      "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programe, and then I've wrote this paper with my team"
+      "summary": "I participated in the TU Delft CERN IdeaSquare Summer School as part of my Honours programme, and then I've wrote this paper with my team"
     }
   ],
   "-languages": [
@@ -202,8 +212,8 @@
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "23",
-    "lastModified": "2026-03-28T19:19:57.280Z",
-    "theme": "jsonresume-theme-tech"
+    "version": "24",
+    "lastModified": "2026-03-28T19:47:43.236Z",
+    "theme": "jsonresume-theme-teon-parsable-1"
   }
 }
