@@ -52,15 +52,29 @@
     <div class='sectionLine'></div>
     <div class='sectionContent'>
       {{#each resume.education}}
-      <div class='educationBlock'>
+      <div class='educationBlock' itemscope itemtype="http://schema.org/EducationalOrganization">
         <div class='blockHeader'>
           <span class='title'>
-            {{#if institution}}{{#if url}}<a href='{{url}}'>{{institution}}{{#if location}}, {{location}}{{/if}}{{#if score}} <em>({{score}}{{#if scoreMax}}/{{scoreMax}}{{/if}}{{#if scoreType}} {{scoreType}}{{/if}})</em>{{/if}}</a>{{else}}{{institution}}{{#if location}}, {{location}}{{/if}}{{#if score}} <em>({{score}}{{#if scoreMax}}/{{scoreMax}}{{/if}}{{#if scoreType}} {{scoreType}}{{/if}})</em>{{/if}}{{/if}}{{/if}}
-            <span class='date'>
-              {{#if startDate}}{{formatDate startDate}} &mdash; {{#if endDate}}{{formatDate endDate}}{{else}}Present{{/if}}{{/if}}
-            </span>
+            {{#if institution}}
+              <span class="institution" itemprop="name">
+                {{#if url}}<a href='{{url}}' itemprop="url">{{institution}}</a>{{else}}{{institution}}{{/if}}
+              </span>
+            {{/if}}
+            {{#if location}}
+              <span class="location">, {{location}}</span>
+            {{/if}}
+            {{#if score}}
+              <span class="score"> <em>({{score}}{{#if scoreMax}}/{{scoreMax}}{{/if}}{{#if scoreType}} {{scoreType}}{{/if}})</em></span>
+            {{/if}}
           </span>
-          {{#if studyType}}<div class='degree'><em>{{studyType}}{{#if area}} ({{area}}){{/if}}</em></div>{{/if}}
+          <span class='date'>
+            {{#if startDate}}{{formatDate startDate}} &mdash; {{#if endDate}}{{formatDate endDate}}{{else}}Present{{/if}}{{/if}}
+          </span>
+          {{#if studyType}}
+            <div class='degree' itemprop="degree">
+              <em>{{studyType}}{{#if area}} ({{area}}){{/if}}</em>
+            </div>
+          {{/if}}
         </div>
         {{#if courses.length}}
         <div class='coursesBlock'>
@@ -83,15 +97,26 @@
 	{{#if resume.work.length}}
   <div class='workBlock'>
     <div class='sectionName'>
-      <span>EXPERIENCE</span>
+      <span>WORK EXPERIENCE</span>
     </div>
     <div class='sectionLine'></div>
     <div class='sectionContent'>
       {{#each resume.work}}
-			<div class="jobBlock">
+			<div class="jobBlock" itemscope itemtype="http://schema.org/Organization">
 	      <div class='blockHeader'>
 	        <span class='title'>
-	          {{#if position}}{{#if url}}<a href='{{url}}'>{{position}} - <em>{{name}}</em>{{#if location}}, {{location}}{{/if}}</a>{{else}}{{position}} - <em>{{name}}</em>{{#if location}}, {{location}}{{/if}}{{/if}}{{/if}}
+	          {{#if name}}
+	            <span class="company" itemprop="name">
+	              {{#if url}}<a href='{{url}}' itemprop="url">{{name}}</a>{{else}}{{name}}{{/if}}
+	            </span>
+	          {{/if}}
+	          {{#if position}}
+	            <span class="divider">-</span>
+	            <span class="job-title" itemprop="jobTitle"><em>{{position}}</em></span>
+	          {{/if}}
+	          {{#if location}}
+	            <span class="location">, {{location}}</span>
+	          {{/if}}
 	        </span>
 	        {{#if startDate}}
 	        <span class='date'>
@@ -99,7 +124,7 @@
 	        </span>
 	        {{/if}}
 	      </div>
-	      {{#if summary}}<div class='summary'>{{{summary}}}</div>{{/if}}
+	      {{#if summary}}<div class='summary' itemprop="description">{{{summary}}}</div>{{/if}}
 	      {{#if highlights.length}}
 	      <ul class='highlights'>
 	        {{#each highlights}}
@@ -262,10 +287,14 @@
     <div class='sectionLine'></div>
     <div class='sectionContent'>
       {{#each resume.volunteer}}
-      <div class='volunteerBlock'>
-        <div class='blockHeader'>
+			<div class="volunteerBlock" itemscope itemtype="http://schema.org/Organization">
+	      <div class='blockHeader'>
           <span class='title'>
-            {{#if website}}<a href='{{website}}'>{{#if organization}}{{organization}}{{/if}}</a>{{else}}{{#if organization}}{{organization}}{{/if}}{{/if}}
+            {{#if organization}}
+              <span class="company" itemprop="name">
+                {{#if website}}<a href='{{website}}' itemprop="url">{{organization}}</a>{{else}}{{organization}}{{/if}}
+              </span>
+            {{/if}}
           </span>
           {{#if startDate}}
           <span class='date'>
@@ -273,7 +302,7 @@
           </span>
           {{/if}}
         </div>
-        <div class='position'><strong>{{position}}</strong></div>
+        <div class='position' itemprop="jobTitle"><em>{{position}}</em></div>
         {{#if summary}}<div class='summary'>{{{summary}}}</div>{{/if}}
         {{#if highlights.length}}
         <ul class='highlights'>
