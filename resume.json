@@ -2,6 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
   "basics": {
     "name": "Teodor Neagoe",
+    "dateOfBirth": 21,
     "label": "Software Engineer | Student | Founder",
     "image": "",
     "email": "teodor.neagoe.climber@gmail.com",
@@ -196,7 +197,7 @@
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
     "version": "23",
-    "lastModified": "2026-03-26T14:22:13.213Z",
+    "lastModified": "2026-03-28T19:11:18.609Z",
     "theme": "jsonresume-theme-tech"
   }
 }

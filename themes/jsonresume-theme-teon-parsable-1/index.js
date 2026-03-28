@@ -1,6 +1,11 @@
 var fs = require('fs');
 var Handlebars = require('handlebars');
 
+Handlebars.registerHelper('formatDate', function(dateStr) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+});
+
 function render(resume) {
   // Split education courses into 3 columns for layout
   (resume.education || []).forEach(function(block) {
