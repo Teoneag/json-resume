@@ -33,6 +33,7 @@
       "area": "Computer Science & Engineering with Quantum Science & Quantum Information Minor",
       "studyType": "Bachelor of Science (Honours)",
       "startDate": "2023-09-01",
+      "endDate": "2026-06-30",
       "courses": [
         "OOP Project: Full-stack expense splitter (Spring Boot, JavaFX",
         "Interpreter with desugarer & type checker in Scala; Ray tracer in C++ with OpenGL",
@@ -108,8 +109,7 @@
       "startDate": "2024-10-01",
       "endDate": "2025-12-01",
       "highlights": [
-        "Designed & built photo journaling app",
-        "Shipped Android & iOS app",
+        "Designed, built, and shipped a photo-journaling app to iOS and Android",
         "Tech stack: Dart (Flutter), Firebase"
       ]
     },
@@ -163,8 +163,8 @@
         "Go (Fx)",
         "TypeScript (React, Fusion.js, Next.js, Supabase)",
         "Rust (Bevy, Rapier)",
-        "C++ (Arduino, OpenGL, Competitive Programming)",
-        "Scala",
+        "C++ (Arduino, OpenGL)",
+        "Scala, Haskell, Agda",
         "Assembly (x86_64)",
         "HTML, CSS, JavaScript",
         "SQL"
@@ -222,7 +222,7 @@
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
     "version": "28",
-    "lastModified": "2026-07-05T15:42:33.977Z",
+    "lastModified": "2026-07-05T16:08:15.542Z",
     "theme": "jsonresume-theme-teon-parsable-1"
   }
 }

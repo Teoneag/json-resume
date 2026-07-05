@@ -31,6 +31,7 @@ Opens editor at `http://localhost:5173`.
 
 ## ToDo
 
+- make it clear when the cv won't fit in a page (it looks ok in preview, when u export is 2 pages)
 - think about scrolling logic (I wanna see how it would look like on pdf with pages + I have to be able to click to select + i should be able to click on links from pdf)
 - refactor by hand to lean React properly
 - figure out why image doesn't work

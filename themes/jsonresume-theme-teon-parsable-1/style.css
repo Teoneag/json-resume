@@ -136,6 +136,7 @@ a:hover {
 
 .skillBlock ul {
   margin-top: 1px;
+  padding-left: 0;
 }
 
 .skillBlock ul li {
