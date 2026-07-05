@@ -21,12 +21,13 @@ npm install && npm start
 ```
 Opens editor at `http://localhost:5173`.
 
-2.  Add Themes:
-
-```bash
-npm install jsonresume-theme-<name>
-```
-(Restart server to load new themes).
+2.  Themes:
+    - Many popular themes (like `elegant`, `flat`, `modern`, etc.) are already pre-installed under dependencies in `package.json` and loaded automatically.
+    - To add a new/different theme:
+      ```bash
+      npm install jsonresume-theme-<name>
+      ```
+      (Restart the server to load the new theme).
 
 ## ToDo
 

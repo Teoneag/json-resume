@@ -42,6 +42,15 @@
   ],
   "work": [
     {
+      "name": "IMC Trading",
+      "location": "Amsterdam, Netherlands",
+      "position": "Incoming Software Engineer Intern",
+      "startDate": "2027-06-21",
+      "endDate": "2027-08-27",
+      "url": "https://www.imc.com",
+      "highlights": []
+    },
+    {
       "name": "Ekkie.ai",
       "location": "Roosendaal, Netherlands",
       "position": "Founding Engineer (Part-time)",
@@ -213,7 +222,7 @@
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
     "version": "26",
-    "lastModified": "2026-03-28T20:13:55.044Z",
+    "lastModified": "2026-07-05T15:37:35.086Z",
     "theme": "jsonresume-theme-teon-parsable-1"
   }
 }
