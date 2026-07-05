@@ -59,14 +59,14 @@
       "url": "https://www.ekkie.ai",
       "highlights": [
         "Rebuilt the dispatcher (1 of 3 products sold to customers) from 0 in Python within the first 2 weeks",
-        "Designing & building the new deterministic engine using Spring Boot Kotlin (previously implemented in Python)",
-        "Tech stack: Kotlin (Spring Boot), Python (Microsoft Agent Framework) TypeScript (Next.js), Autotask, Topdesk, Azure suite (Graph, SQL, Blob)"
+        "Designed & built new labeler & dispatcher (2 of 3 products sold to customers) from 0 in Spring Boot Kotlin in 1 month",
+        "Tech stack: Kotlin (Spring Boot), Python (Microsoft Agent Framework), TypeScript (Next.js), Autotask, Topdesk, Azure suite (Graph, SQL, Blob)"
       ]
     },
     {
       "name": "YellowDocs.com",
       "location": "Delft, Netherlands",
-      "position": "Technical Co-founder",
+      "position": "Technical Co-Founder",
       "startDate": "2025-12-01",
       "url": "https://yellowdocs.com/",
       "highlights": [
@@ -114,7 +114,7 @@
       ]
     },
     {
-      "name": "Delft Mercurians - Tu Delft's RoboCup Team",
+      "name": "Delft Mercurians - TU Delft's RoboCup Team",
       "location": "Delft, Netherlands",
       "position": "Software Engineer",
       "url": "https://delftmercurians.nl/",
@@ -221,8 +221,8 @@
   "references": [],
   "meta": {
     "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/sample.resume.json",
-    "version": "26",
-    "lastModified": "2026-07-05T15:37:35.086Z",
+    "version": "28",
+    "lastModified": "2026-07-05T15:42:33.977Z",
     "theme": "jsonresume-theme-teon-parsable-1"
   }
 }
